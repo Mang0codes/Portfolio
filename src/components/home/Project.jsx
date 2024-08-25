@@ -17,12 +17,14 @@ const API = "https://api.github.com";
 // const gitHubQuery = "/repos?sort=updated&direction=desc";
 // const specficQuerry = "https://api.github.com/repos/hashirshoaeb/";
 
-const Project = ({ heading, username, length, specfic }) => {
+const Project = ({ heading, username, length, specfic=[] }) => {
   const allReposAPI = `${API}/users/${username}/repos?sort=updated&direction=desc`;
   const specficReposAPI = `${API}/repos/${username}`;
   const dummyProjectsArr = new Array(length + specfic.length).fill(
     dummyProject
   );
+
+  const liveLinks =  ["https://likhodaily-bloggingapp.onrender.com/", "https://mang0codes.github.io/Banking-app-Hoobank/", "https://syntaxhub-online-code-editor.onrender.com/", "https://mang0codes.github.io/ProductLandingPage/"]
 
   const [projectsArray, setProjectsArray] = useState([]);
 
@@ -46,7 +48,7 @@ const Project = ({ heading, username, length, specfic }) => {
       // TODO: remove the duplication.
       setProjectsArray(repoList);
     } catch (error) {
-      console.error(error.message);
+      console.error(`Error fetching repos: ${error.message}`);
     }
   }, [allReposAPI, length, specfic, specficReposAPI]);
 
@@ -65,6 +67,7 @@ const Project = ({ heading, username, length, specfic }) => {
                 key={`project-card-${index}`}
                 id={`project-card-${index}`}
                 value={project}
+                liveLink={index < liveLinks.length ? liveLinks[index] : ""}
               />
             ))
             : dummyProjectsArr.map((project, index) => (
